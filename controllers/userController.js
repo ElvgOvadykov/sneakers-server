@@ -5,15 +5,15 @@ const ApiError = require("../exceptions/apiError");
 class UserController {
   async signUp(request, response, next) {
     try {
-      const errors = validationResult(request);
-      if (!errors.isEmpty()) {
-        return next(
-          ApiError.BadRequest("Ошибка при валидации", errors.array())
-        );
-      }
+      // const errors = validationResult(request);
+      // if (!errors.isEmpty()) {
+      //   return next(
+      //     ApiError.BadRequest("Ошибка при валидации", errors.array())
+      //   );
+      // }
 
-      const { email, password } = request.body;
-      const userData = await userService.signUp(email, password);
+      const { newUser } = request.body;
+      const userData = await userService.signUp(newUser);
 
       response.cookie("refreshToken", userData.refreshToken, {
         maxAge: process.env.REFRESH_TOKEN_MAX_AGE,

@@ -24,7 +24,9 @@ class UserService {
     };
   }
 
-  async signUp(email, password) {
+  async signUp(newUser) {
+    const { email, password, firstName, lastName, birthDate, gender } = newUser;
+
     const candidate = await UserModel.findOne({ email });
 
     if (candidate) {
@@ -37,11 +39,14 @@ class UserService {
     const activationLink = uuid.v4();
 
     const user = await UserModel.create({
-      email,
+      email: newUser.email,
       password: hashedPassword,
       activationLink,
+      firstName,
+      lastName,
+      birthDate,
+      gender,
     });
-    console.log(email);
 
     await mailService.sendActivationMail(
       email,
